@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evolvus.springRestAPIAngular7.bean.CustomResponse;
+import com.evolvus.springRestAPIAngular7.bean.JwtAuthenticationRequest;
 import com.evolvus.springRestAPIAngular7.bean.ServerData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,7 +36,6 @@ public class SpringRestApiAngular7Application {
 		HttpStatus httpStatus = HttpStatus.OK;
 		CustomResponse customResponse = new CustomResponse();
 
-	
 		customResponse.setStatus("SUCCESS");
 
 		return new ResponseEntity<>(customResponse, httpStatus);
@@ -55,7 +55,7 @@ public class SpringRestApiAngular7Application {
 
 		// arrayList.add(e)
 
-		//customResponse.setData("successfully saved the data");
+		// customResponse.setData("successfully saved the data");
 		customResponse.setStatus("SUCCESS");
 
 		return new ResponseEntity<>(customResponse, httpStatus);
@@ -106,4 +106,29 @@ public class SpringRestApiAngular7Application {
 		return new ResponseEntity<>(customResponse, httpStatus);
 	}
 
+	@PostMapping("authenticate")
+
+	public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+
+		CustomResponse customResp = null;
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		try {
+			if (authenticationRequest.getUserId().equals("nagendra")) {
+				customResp = new CustomResponse();
+				status = HttpStatus.OK;
+				customResp.setDescription("Login SuccesFull");
+				customResp.setData("login successfull");
+				customResp.setStatus("SUCCESS");
+			}else {
+				status = HttpStatus.OK;
+	
+			}
+
+		} catch (Exception ex) {
+			ex.fillInStackTrace();
+		}
+
+		return new ResponseEntity<>(customResp, status);
+
+	}
 }
